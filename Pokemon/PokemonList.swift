@@ -11,12 +11,12 @@ struct PokemonList: View {
     @State private var navigationPath: [PokemonModel] = []
 
     var body: some View {
-        @Bindable var viewModel = self.viewModel
+       @Bindable var viewModel = self.viewModel
         NavigationStack(path: $navigationPath) {
             List {
                 ForEach($viewModel.pokemonList){ $pokemon in
                     NavigationLink(value: pokemon) {
-                        ListView(pokemon: $pokemon)
+                        ListView(pokemon: pokemon)
                             .listRowSeparator(.hidden)
                             .swipeActions(edge: .leading) {
                                 Button(role: .confirm) {
@@ -33,6 +33,13 @@ struct PokemonList: View {
                                 } label: {
                                     Label("Rediger", systemImage: "pencil")
                                 }
+
+                                Button {
+                                    pokemon.isFavorite.toggle()
+                                } label: {
+                                    Label("Favorite", systemImage: "star.fill")
+                                        .foregroundStyle(.foreground)
+                                }
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button(role: .destructive) {
@@ -48,9 +55,10 @@ struct PokemonList: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        viewModel.sorted.toggle()
+                        // navigation til Add pokemon view
                     } label: {
-                        Label("HUGO", systemImage: viewModel.sorted ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
+                        Image(systemName: "plus.circle").foregroundStyle(.brown)
+
                     }
                 }
             }
@@ -62,16 +70,13 @@ struct PokemonList: View {
 }
 
 struct ListView: View {
-    @Binding var pokemon:PokemonModel
+    var pokemon:PokemonModel
     var body: some View {
         HStack {
             Image(pokemon.imageName).resizable().frame(width: 50, height: 50)
             Text(pokemon.name)
             Image(systemName: pokemon.isFavorite ? "star.fill" : "star")
                 .foregroundColor(pokemon.isFavorite ? .yellow : .gray)
-                .onTapGesture {
-                    pokemon.isFavorite.toggle()
-                }
         }
     }
 }

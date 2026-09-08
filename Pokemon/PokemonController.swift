@@ -19,15 +19,26 @@ class PokemonController {
         }
     }
 
+    func add(name: String, favorite: Bool){
+        let pokemon = PokemonModel(name: name, isFavorite: favorite)
+        pokemonList.append(pokemon)
+    }
+
 
     init() {
-        pokemonList = [PokemonModel(name:"rattata"),
-                    PokemonModel(name:"bulbasaur"),
-                    PokemonModel(name:"charmander"),
-                    PokemonModel(name:"growlithe"),
-                    PokemonModel(name:"squirtle"),
-                    PokemonModel(name:"jigglypuff"),
-                    PokemonModel(name:"meowth"),
-                    PokemonModel(name:"pikachu")]
+        pokemonList = [
+            PokemonModel(name:"pikachu"),
+            PokemonModel(name:"rattata"),
+            PokemonModel(name:"bulbasaur"),]
     }
 }
+
+/*
+ PokemonModel(name:"rattata"),
+ PokemonModel(name:"bulbasaur"),
+ PokemonModel(name:"charmander"),
+ PokemonModel(name:"growlithe"),
+ PokemonModel(name:"squirtle"),
+ PokemonModel(name:"jigglypuff"),
+ PokemonModel(name:"meowth"),
+ */
