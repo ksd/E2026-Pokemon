@@ -14,13 +14,14 @@ enum Navigation: Hashable {
 struct PokemonList: View {
     @Environment(PokemonController.self) var viewModel
     @State private var navigationPath: [Navigation] = []
+    @State private var isPresented: Bool = false
 
     var body: some View {
        @Bindable var viewModel = self.viewModel
         NavigationStack(path: $navigationPath) {
             List {
                 ForEach($viewModel.pokemonList){ $pokemon in
-                    NavigationLink(value: pokemon) {
+                    NavigationLink(value: Navigation.pokemonDetail(pokemon)) {
                         ListView(pokemon: pokemon)
                             .listRowSeparator(.hidden)
                             .swipeActions(edge: .leading) {
@@ -60,7 +61,8 @@ struct PokemonList: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        navigationPath.append(.add)
+                        isPresented = true
+                        //navigationPath.append(.add)
                     } label: {
                         Image(systemName: "plus.circle").foregroundStyle(.brown)
 
@@ -78,6 +80,10 @@ struct PokemonList: View {
                         )
                 }
             }
+        }
+        .sheet(isPresented: $isPresented) {
+            AddPokemonView(navigationPath: $navigationPath)
+                .presentationDetents([.medium])
         }
     }
 }
