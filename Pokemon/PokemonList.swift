@@ -70,7 +70,7 @@ struct PokemonList: View {
             .navigationDestination(for: Navigation.self) { destination in
                 switch destination {
                     case .add:
-                        AddPokemonView()
+                        AddPokemonView(navigationPath: $navigationPath)
                     case .pokemonDetail(let pokemon):
                         PokemonDetailView(
                             pokemon: pokemon,
