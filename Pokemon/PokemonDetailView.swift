@@ -8,7 +8,7 @@ import SwiftUI
 
 struct PokemonDetailView: View {
     var pokemon: PokemonModel
-    @Binding var navigationPath: [PokemonModel]
+    @Binding var navigationPath: [Navigation]
     var body: some View {
         Image(pokemon.imageName)
             .onTapGesture {
@@ -18,8 +18,8 @@ struct PokemonDetailView: View {
 }
 
 #Preview {
+    let navigationPath: Binding<[Navigation]> = .constant([.pokemonDetail(PokemonModel(name: "charmander"))])
     PokemonDetailView(
         pokemon: PokemonModel(name: "pikachu"),
-        navigationPath: .constant([PokemonModel(name: "charmander")])
-    )
+        navigationPath: navigationPath)
 }

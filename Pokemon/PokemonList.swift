@@ -6,9 +6,14 @@
 
 import SwiftUI
 
+enum Navigation: Hashable {
+    case add
+    case pokemonDetail(PokemonModel)
+}
+
 struct PokemonList: View {
     @Environment(PokemonController.self) var viewModel
-    @State private var navigationPath: [PokemonModel] = []
+    @State private var navigationPath: [Navigation] = []
 
     var body: some View {
        @Bindable var viewModel = self.viewModel
@@ -21,14 +26,14 @@ struct PokemonList: View {
                             .swipeActions(edge: .leading) {
                                 Button(role: .confirm) {
                                     print("Rediger \(pokemon.name)")
-                                    navigationPath.append(pokemon)
+                                    navigationPath.append(.pokemonDetail(pokemon))
                                     navigationPath
                                         .append(
-                                            viewModel.pokemons.randomElement()!
+                                            .pokemonDetail(viewModel.pokemons.randomElement()!)
                                         )
                                     navigationPath
                                         .append(
-                                            viewModel.pokemons.randomElement()!
+                                            .pokemonDetail(viewModel.pokemons.randomElement()!)
                                         )
                                 } label: {
                                     Label("Rediger", systemImage: "pencil")
@@ -55,15 +60,23 @@ struct PokemonList: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        // navigation til Add pokemon view
+                        navigationPath.append(.add)
                     } label: {
                         Image(systemName: "plus.circle").foregroundStyle(.brown)
 
                     }
                 }
             }
-            .navigationDestination(for: PokemonModel.self) { pokemon in
-                PokemonDetailView(pokemon: pokemon, navigationPath: $navigationPath)
+            .navigationDestination(for: Navigation.self) { destination in
+                switch destination {
+                    case .add:
+                        AddPokemonView()
+                    case .pokemonDetail(let pokemon):
+                        PokemonDetailView(
+                            pokemon: pokemon,
+                            navigationPath: $navigationPath
+                        )
+                }
             }
         }
     }
