@@ -8,8 +8,7 @@ import SwiftUI
 
 struct AddPokemonView: View {
     @Environment(PokemonController.self) var controller
-    @Binding var navigationPath: [Navigation]
-    
+    @Environment(\.dismiss) var dismiss
     @State  var name = ""
     @State  var favorite = false
     @FocusState var focusedField: Int?
@@ -21,7 +20,7 @@ struct AddPokemonView: View {
             Toggle("favorite", isOn: $favorite)
             Button(role: .confirm) {
                 controller.add(name: name, favorite: favorite)
-                navigationPath.removeLast()
+                dismiss()
             } label: {
                 HStack {
                     Image(systemName: "person.badge.plus")
@@ -38,8 +37,7 @@ struct AddPokemonView: View {
 }
 
 #Preview {
-    @Previewable @State var navigationPath: [Navigation] = []
-    AddPokemonView(navigationPath: $navigationPath)
+    AddPokemonView()
         .environment(PokemonController())
 }
 

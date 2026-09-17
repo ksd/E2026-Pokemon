@@ -9,13 +9,18 @@ import Foundation
 @Observable
 class PokemonController {
     var sorted = false
-    var pokemonList: [PokemonModel]
+   private var pokemonList: [PokemonModel]
 
     var pokemons: [PokemonModel] {
-        if sorted {
-            return pokemonList.sorted{$0.name < $1.name}
-        } else {
-            return pokemonList
+        get {
+            if sorted {
+                return pokemonList.sorted{$0.name < $1.name}
+            } else {
+                return pokemonList
+            }
+        }
+        set {
+            pokemonList = newValue
         }
     }
 

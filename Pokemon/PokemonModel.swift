@@ -10,7 +10,7 @@ struct PokemonModel: Identifiable, Hashable {
     var id = UUID()
     let name: String
     var imageName: String {
-        return name
+        return name.lowercased()
     }
     var isFavorite: Bool = false
 }

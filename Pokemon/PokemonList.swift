@@ -20,7 +20,7 @@ struct PokemonList: View {
        @Bindable var viewModel = self.viewModel
         NavigationStack(path: $navigationPath) {
             List {
-                ForEach($viewModel.pokemonList){ $pokemon in
+                ForEach($viewModel.pokemons){ $pokemon in
                     NavigationLink(value: Navigation.pokemonDetail(pokemon)) {
                         ListView(pokemon: pokemon)
                             .listRowSeparator(.hidden)
@@ -62,7 +62,6 @@ struct PokemonList: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         isPresented = true
-                        //navigationPath.append(.add)
                     } label: {
                         Image(systemName: "plus.circle").foregroundStyle(.brown)
 
@@ -72,7 +71,7 @@ struct PokemonList: View {
             .navigationDestination(for: Navigation.self) { destination in
                 switch destination {
                     case .add:
-                        AddPokemonView(navigationPath: $navigationPath)
+                        AddPokemonView()
                     case .pokemonDetail(let pokemon):
                         PokemonDetailView(
                             pokemon: pokemon,
@@ -82,7 +81,7 @@ struct PokemonList: View {
             }
         }
         .sheet(isPresented: $isPresented) {
-            AddPokemonView(navigationPath: $navigationPath)
+            AddPokemonView()
                 .presentationDetents([.medium])
         }
     }
