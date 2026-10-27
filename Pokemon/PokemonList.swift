@@ -17,10 +17,9 @@ struct PokemonList: View {
     @State private var isPresented: Bool = false
 
     var body: some View {
-       @Bindable var viewModel = self.viewModel
         NavigationStack(path: $navigationPath) {
             List {
-                ForEach($viewModel.pokemons){ $pokemon in
+                ForEach(viewModel.pokemons){ pokemon in
                     NavigationLink(value: Navigation.pokemonDetail(pokemon)) {
                         ListView(pokemon: pokemon)
                             .listRowSeparator(.hidden)
@@ -41,7 +40,7 @@ struct PokemonList: View {
                                 }
 
                                 Button {
-                                    pokemon.isFavorite.toggle()
+                                    viewModel.toggleFavorite(pokemon)
                                 } label: {
                                     Label("Favorite", systemImage: "star.fill")
                                         .foregroundStyle(.foreground)

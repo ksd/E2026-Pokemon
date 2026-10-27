@@ -6,8 +6,8 @@
 
 import Foundation
 
-struct PokemonModel: Identifiable, Hashable {
-    var id = UUID()
+struct PokemonModel: Codable, Identifiable, Hashable {
+    var id = UUID().uuidString
     let name: String
     var imageName: String {
         return name.lowercased()
